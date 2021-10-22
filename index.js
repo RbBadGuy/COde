@@ -12,7 +12,7 @@ const { join } = require('path');
 
 bot.commands = new Discord.Collection();
 
-const prefix = '.';
+const prefix = '-';
 //this prefix can be what ever you want ;)
 
 const commandFiles = readdirSync(join(__dirname, "commands")).filter(file => file.endsWith(".js"));
@@ -32,25 +32,23 @@ bot.on('ready', () => {
 })
 //------------------------------------------------------------------------------
 
-bot.on("message", async message => {
+bot.on('message', message => {
+  if(!message.content.startsWith(prefix) || message.author.bot) return;
 
-    if(message.author.bot) return;   
-    if(message.channel.type === 'dm') return;
+  const args = message.content.slice(prefix.length).split(/ +/);
+  const command = args.shift().toLowerCase();
 
-    if(message.content.startsWith(prefix)) {
-        const args = message.content.slice(prefix.length).trim().split(/ +/);
-
-        const command = args.shift().toLowerCase();
-
-        if(!bot.commands.has(command)) return;
-
-
-        try {
-            bot.commands.get(command).run(bot, message, args);
-        } catch (error){
-            console.error(error);
-        }
-    }
-})
+  if(command === 'noice'){
+    message.channel.send('die loser');
+  } else if (command == 'rb'){
+      message.channel.send('https://www.youtube.com/c/RbBadGuy');
+  } else if (command == 'fire'){
+      message.channel.send(' oh no you house is in fire what do we do ||https://tenor.com/view/pir%C3%B3mano-meme-jeje-odio-bomberos-gif-15722930  i https://tenor.com/view/travel-fountain-mansion-gif-7238280 || i got u new house yeeeee')
+  } else if (command == 'meme'){
+     message.channel.send('i am not an meme i am lemmy')
+  } else if (command == 'lemmy'){
+     message.channel.send('i am not lemmy i am meme')
+  }
+});
 
 bot.login(token);
